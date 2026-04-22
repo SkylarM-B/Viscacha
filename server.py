@@ -1,7 +1,5 @@
 """
-HTTP server — thin FastAPI wrapper around Client.
-
-Usage:
+Usage example:
     from viscacha import Client
     from viscacha.server import create_app
     import uvicorn
@@ -35,7 +33,7 @@ from .client import Client
 def create_app(client: Client) -> FastAPI:
     app = FastAPI(title="Viscacha")
 
-    # ── job management ────────────────────────────────────────────────────
+    #  job management 
 
     class EnqueueRequest(BaseModel):
         job_type: str
@@ -58,7 +56,7 @@ def create_app(client: Client) -> FastAPI:
             raise HTTPException(status_code=404, detail="Job not found")
         return job
 
-    # ── worker protocol ───────────────────────────────────────────────────
+    #  worker  
 
     class ClaimRequest(BaseModel):
         job_type: str
