@@ -19,7 +19,7 @@ result = handle.wait()
 print(result.result)  # {'message': 'Hello, Alice!'}
 ```
 
-No broker. No Redis. No Docker. Just Python.
+No broker, Redis. or Docker. Just Python!
 
 ---
 
