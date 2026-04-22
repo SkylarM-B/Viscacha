@@ -9,7 +9,7 @@ from tuplespace import TupleSpace, make_tuple
 
 @dataclass
 class JobResult:
-    """Uniform result shape for any job status."""
+    """Uniform result shape for any job status"""
     id: str
     status: str          # 'pending' | 'done' | 'failed' | 'cancelled'
     job_type: str
@@ -65,8 +65,8 @@ class Client:
     """
     Enqueue jobs, observe results.
 
-    In-process mode (default):
-        client = Client()                        # in-memory, no persistence
+    In-process mode (*default):
+        client = Client()                       
         client = Client(log_path="jobs.jsonl")   # persistent
 
     Remote mode (workers anywhere):
@@ -94,7 +94,7 @@ class Client:
                 log_path=Path(log_path) if log_path else None
             )
 
-    # ── public API ────────────────────────────────────────────────────────
+    #  pub API 
 
     def enqueue(self, job_type: str, max_retries: int = 3, **kwargs) -> JobHandle:
         """Put a job on the queue. Returns a handle to check status or wait."""
@@ -149,7 +149,7 @@ class Client:
         raw = self._get_raw(job_id)
         return JobResult._from_dict(raw) if raw else None
 
-    # ── worker protocol (used by Worker internally) ───────────────────────
+    # worker protocol 
 
     def _get_raw(self, job_id: str) -> dict | None:
         if self._url:
