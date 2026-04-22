@@ -1,6 +1,13 @@
-# Viscacha
+<p align="center">
+  <img src="assets/logo.png" width="180" />
+</p>
 
+<h1 align="center">Viscacha</h1>
+
+<p align="center">
 Background jobs for Python. Built for AI pipelines. Every job is crash safe, traceable, and retriable.
+</p>
+
 
 ```python
 from viscacha import Client, Worker
