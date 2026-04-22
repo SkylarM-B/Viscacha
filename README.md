@@ -167,7 +167,7 @@ curl http://localhost:8000/jobs?status=done
 
 ## Under the hood
 
-Jobs are tuples in an append-only tuple space. Workers claim jobs via leases — if a worker crashes, the lease expires and the job returns to the queue automatically. The coordination layer handles ordering, crash safety, and observability. Viscacha is a thin API on top.
+Jobs are tuples in an append-only tuple space. Workers claim jobs via leases. If a worker crashes, the lease expires and the job returns to the queue automatically. The coordination layer handles ordering, crash safety, and observability. Viscacha is a thin API on top.
 
 ---
 
