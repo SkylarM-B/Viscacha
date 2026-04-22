@@ -26,7 +26,7 @@ No broker, Redis. or Docker. Just Python and simpler than Celery/SQS!
 ## Install
 
 ```bash
-Not on pypy/Pip... yet
+pip install viscacha 
 git clone https://github.com/SkylarM-B/Viscacha/
 ```
 
