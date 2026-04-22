@@ -7,15 +7,6 @@ class Worker:
     """
     Pull jobs off the queue and process them.
 
-        worker = Worker(client)
-
-        @worker.job("resize_image")
-        def resize(url, width, height):
-            ...
-            return {"path": output_path}
-
-        worker.run()           # blocking
-        worker.run(blocking=False)   # background thread
     """
 
     def __init__(self, client: "Client"):
@@ -29,7 +20,7 @@ class Worker:
         max_retries: int = 3,
         lease_ttl: float = 30.0,
     ) -> Callable:
-        """Decorator. Register a function as the handler for job_type."""
+        """Decorator Register a function as the handler for job_type."""
         def decorator(fn: Callable) -> Callable:
             self._handlers[job_type] = {
                 "fn":          fn,
@@ -58,7 +49,7 @@ class Worker:
     def stop(self) -> None:
         self._running = False
 
-    # ── internals ─────────────────────────────────────────────────────────
+    #  internal
 
     def _loop(self, poll_interval: float) -> None:
         while self._running:
