@@ -6,7 +6,6 @@ from typing import Callable
 class Worker:
     """
     Pull jobs off the queue and process them.
-
     """
 
     def __init__(self, client: "Client"):
@@ -33,8 +32,8 @@ class Worker:
     def run(self, poll_interval: float = 0.5, blocking: bool = True):
         """
         Start the worker loop.
-        blocking=True  → runs in the current thread (use for scripts / CLI).
-        blocking=False → starts a daemon thread, returns it.
+        blocking=True  runs in the current thread (use for scripts / CLI).
+        blocking=False  starts a daemon thread, returns it.
         """
         self._running = True
         if blocking:
