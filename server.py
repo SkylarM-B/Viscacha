@@ -1,5 +1,5 @@
 """
-Usage example:
+example:
     from viscacha import Client
     from viscacha.server import create_app
     import uvicorn
