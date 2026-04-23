@@ -9,7 +9,7 @@ from tuplespace import TupleSpace, make_tuple
 
 @dataclass
 class JobResult:
-    """Uniform result shape for any job status"""
+    """Uniform result shape for all jobs"""
     id: str
     status: str          # 'pending' | 'done' | 'failed' | 'cancelled'
     job_type: str
@@ -132,7 +132,7 @@ class Client:
         return True
 
     def jobs(self, status: str | None = None) -> list[JobResult]:
-        """List jobs. status: 'pending' | 'done' | 'failed' | 'cancelled' | None (all)."""
+        """List jobs status: 'pending' | 'done' | 'failed' | 'cancelled' | None (all)."""
         if self._url:
             params = {"status": status} if status else {}
             raw = self._session.get(f"{self._url}/jobs", params=params).json()["jobs"]
@@ -145,7 +145,7 @@ class Client:
         ]
 
     def get(self, job_id: str) -> JobResult | None:
-        """Get a single job by ID, or None if not found."""
+        """Get a single job by ID, or None"""
         raw = self._get_raw(job_id)
         return JobResult._from_dict(raw) if raw else None
 
