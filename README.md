@@ -5,7 +5,7 @@
 <h1 align="center">Viscacha</h1>
 
 <p align="center">
-Background jobs for Python. Built for AI pipelines. Every job is crash safe, traceable, and retriable.
+Background jobs for Python. Built for background tasks and AI pipelines. Every job is crash safe, traceable, and retriable.
 </p>
 
 
@@ -26,7 +26,7 @@ result = handle.wait()
 print(result.result)  # {'message': 'Hello, Alice!'}
 ```
 
-No broker, Redis. or Docker. Just Python and simpler than Celery/SQS!
+No broker, Redis. or Docker. Just Python, and simpler than Celery/SQS!
 
 ---
 
@@ -70,12 +70,14 @@ client.get(handle.id)       # get one by ID
 - **Safe retries** — transient failures retry automatically
 - **Full traceability** — every job logged with type, args, result, retries, error
 - **Crash-safe** — if a worker dies mid-job, the lease expires and the job returns to the queue
+- **Crash safe execution** - Workers acquire jobs through atomic leases. If a worker does die mid-job, the lease expires and the job returns to the queue.
+-  **Durable persistence** - The system uses an append only log with periodic snapshotting and compaction to keep state small and recovery fast.
 
 ---
 
 ## AI pipelines
 
-Each Claude call is a job. Workers run in parallel. Failures retry automatically.
+Each Claude call is a job. Workers run in parallel and failures retry automatically.
 
 ```python
 import anthropic
@@ -108,7 +110,7 @@ ANTHROPIC_API_KEY=sk-... python demos/demo_ai_jobs.py
 
 ## Any function works
 
-Email, HTTP calls, reports, transforms — a worker is just a function.
+Email, HTTP calls, reports, transforms, ect. A worker is just a function.
 
 ```python
 @worker.job("send_email")
@@ -145,7 +147,8 @@ def call_api(endpoint: str) -> dict:
 client = Client(log_path="jobs.jsonl")
 ```
 
-Append-only log. Jobs survive restarts.
+Append-only log. 
+Jobs survive restarts.
 
 ---
 
@@ -173,8 +176,15 @@ curl http://localhost:8000/jobs?status=done
 ---
 
 ## Under the hood
+Jobs are represented as tuples in an append-only tuple space.
+Workers claim jobs using atomic leases, ensuring that only one worker can process a job at a time.
+If a worker crashes, the lease expires and the job becomes available again.
 
-Jobs are tuples in an append-only tuple space. Workers claim jobs via leases. If a worker crashes, the lease expires and the job returns to the queue automatically. The coordination layer handles ordering, crash safety, and observability. Viscacha is a thin API on top.
+The log is periodically snapshotted and compacted.
+Snapshots capture the current state so the system does not need to replay the entire log on startup.
+Compaction removes obsolete events and keeps the log small.
+
+Viscacha is a thin API over these mechanisms.
 
 ---
 
