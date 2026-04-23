@@ -188,6 +188,11 @@ Viscacha is a thin API over these mechanisms.
 
 ---
 
+---
+## Tuple space?
+A Tuple Space is a form of associative memory used for parallel/distributed computing.
+It's not a line; it's a shared space. Workers don't just 'take' jobs; they 'lease' them. If the worker crashes, the lease expires, and the job reappears automatically.
+
 ## Roadmap
 
 - [ ] Priority queues
