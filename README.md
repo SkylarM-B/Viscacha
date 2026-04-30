@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="logo.png" width="180" />
-</p>
+
 
 <h1 align="center">Viscacha</h1>
 
